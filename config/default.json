@@ -1,0 +1,3 @@
+{
+  "mongoURI": "mongodb+srv://developer:adminpassword@profile.pmi7v.mongodb.net/ccapdev-profile?retryWrites=true&w=majority"
+}
