@@ -3,10 +3,9 @@
     <div class="row">
       <div class="col-lg-8 col-m-8 col-xs-8">
         <br />
-        <h2>{{ title }}</h2>
-        <hr />
-        <h4>What can you do?</h4>
-        <p>
+        <h2>About (Prof)ile</h2>
+        <h3>What can you do?</h3>
+        <p class="info">
           A user can view a professor’s profile. <br />
           A user may add a review for a professor.<br />
           A review will include a short comment and a rating (0-5 stars). <br />
@@ -25,8 +24,8 @@
           will be presented with a list of <br />
           professors whose name includes the inputted string.
         </p>
-        <h4>Confused about your role in this community?</h4>
-        <h5>Visitor</h5>
+        <h3>Confused about your role in this community?</h3>
+        <h4>Visitor</h4>
         <p>
           A visitor must register to be able to access the site and use its
           features. The visitor must enter their name, DLSU ID number, DLSU
@@ -39,24 +38,36 @@
           the site and its features. Upon logging in, the user can start viewing
           professors and making comments.
         </p>
-        <h5>Administrator</h5>
+        <h4>Administrator</h4>
         <p>
           An administrator must match the details of listed administrators in
           the system. An administrator must enter his/her credentials to login.
         </p>
-        <hr />
-        <h6>Developers:</h6>
-        <p>
-          Buhion, Deborah Rose <br />
-          Go, Thea Ellen <br />
-          Intatano, Nick <br />
-        </p>
-      </div>
-      <div class="col-lg-4 col-m-4 col-xs-4">
         <br />
-        <h5>Search for a Prof</h5>
-        <!--{{> searchbar}}-->
+        <div class="devs">
+          <hr />
+          <h4>Developed By:</h4>
+          <p class="devs">
+            Buhion, Deborah Rose <br />
+            Go, Thea Ellen <br />
+            Intatano, Nick <br />
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+  h1,
+  h2 {
+    margin-bottom: 1rem;
+  }
+  p {
+    margin-bottom: 1rem;
+  }
+  .devs {
+    color: #777;
+    font-size: 0.8rem;
+  }
+</style>
