@@ -2,14 +2,14 @@
   <div>
     <nav class="navbar bg-white">
       <h1 class="navheader">
-        <a href="./home.html">
+        <router-link to="/home">
           <i class="fas fa-address-book"></i> (Prof)ile
-        </a>
+        </router-link>
       </h1>
       <ul>
         <li><router-link to="/about">About</router-link></li>
-        <li><a href="/help">Help</a></li>
-        <li><a href="/logout">Logout</a></li>
+        <li><router-link to="/help">Help</router-link></li>
+        <li><router-link to="/logout">Logout</router-link></li>
       </ul>
     </nav>
   </div>

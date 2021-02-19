@@ -3,9 +3,19 @@ import Home from '../views/Home.vue';
 
 const routes = [
   {
-    path: '/',
+    path: '*',
+    name: 'catchAll',
+    redirect: '/'
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/',
+    name: 'Welcome',
+    component: () => import('../views/Welcome.vue')
   },
   {
     path: '/about',
@@ -15,7 +25,32 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+  },
+  {
+    path: '/profile/:idNum',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue'),
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import('../views/Register.vue'),
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: () => import('../views/Search.vue'),
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue'),
+  },
+  {
+    path: '/verify',
+    name: 'Verify',
+    component: () => import('../views/Verify.vue'),
+  },
 ];
 
 const router = createRouter({
