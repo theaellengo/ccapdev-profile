@@ -3,9 +3,19 @@ import Home from '../views/Home.vue';
 
 const routes = [
   {
-    path: '/',
+    path: '*',
+    name: 'catchAll',
+    redirect: '/'
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/',
+    name: 'Welcome',
+    component: () => import('../views/Welcome.vue')
   },
   {
     path: '/about',
@@ -30,6 +40,16 @@ const routes = [
     path: '/search',
     name: 'Search',
     component: () => import('../views/Search.vue'),
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue'),
+  },
+  {
+    path: '/verify',
+    name: 'Verify',
+    component: () => import('../views/Verify.vue'),
   },
 ];
 

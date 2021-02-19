@@ -9,9 +9,9 @@
   // @ is an alias to /src
   export default {
     name: 'Profile',
-    data() {
-      idNum: 0;
-    },
+    data: () => ({
+      idNum: 0,
+    }),
     created() {
       this.idNum = this.$route.params.idNum;
     },
