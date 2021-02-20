@@ -37,8 +37,8 @@
     z-index: 1;
     width: 100%;
     top: 0;
-    opacity: 0.9;
-    box-shadow: 0px 1px 5px grey;
+    opacity: 0.95;
+    box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.1);
   }
   .navbar ul {
     display: flex;
