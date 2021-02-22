@@ -54,15 +54,6 @@
 </script>
 
 <style scoped>
-  .card {
-    padding: 5rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    color: #333;
-    box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    border: none;
-  }
   .alert-text {
     padding-top: 0;
   }

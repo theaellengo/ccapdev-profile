@@ -38,9 +38,10 @@
 
 <style scoped>
   .card {
-    background-color: white;
+    padding: 1rem;
     border: none;
     box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
   }
   h1,
   h2,

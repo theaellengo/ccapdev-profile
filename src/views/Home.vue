@@ -67,9 +67,6 @@
     padding-top: 3rem;
     padding-bottom: 3rem;
     color: #333;
-    box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    border: none;
   }
   img {
     width: 100%;
