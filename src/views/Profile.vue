@@ -4,7 +4,7 @@
     <div class="profile">
       <br />
       <!--p>profile for id: {{ idNum }}</p-->
-      <h3 class="page-title">Professor</h3>
+      <h3 class="page-title">Information</h3>
       <div id="profilecont">
         <div class="card">
           <div class="profileheader">
@@ -15,7 +15,7 @@
           <div class="profilearea">
             <table class="table table-borderless">
               <thead>
-                <h5>Information</h5>
+                <h5></h5>
               </thead>
               <tbody>
                 <tr>
