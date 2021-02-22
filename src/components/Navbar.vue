@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar bg-white">
+  <nav class="navbar navbar-expand-lg bg-white">
     <h1 class="navheader">
       <router-link to="/home">
         <i class="fas fa-address-book"></i> (Prof)ile

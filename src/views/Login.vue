@@ -1,8 +1,21 @@
 <template>
-  <Navbar />
+  <nav class="navbar navbar-expand-lg bg-white">
+    <h1 class="navheader">
+      <router-link to="/">
+        <i class="fas fa-address-book"></i> (Prof)ile
+      </router-link>
+    </h1>
+    <Searchbar class="searchbar" />
+    <ul>
+      <li><router-link to="/help">Help</router-link></li>
+      <li><router-link to="/register">Register</router-link></li>
+      <li><router-link to="/login">Login</router-link></li>
+    </ul>
+  </nav>
+
   <div class="login">
     <div class="container">
-      <div class="form-container">
+      <div class="card form-container">
         <!--Alert-->
         <div class="alert alert-text">
           Invalid Credetials.
@@ -23,6 +36,7 @@
             <label class="control-label" for="pwd">Password:</label>
             <input type="password" placeholder="Password" min-length="6" />
           </div>
+          <br />
           <input type="submit" value="Sign In" class="btn btn-primary" />
         </form>
         <p class="my-1">
@@ -34,11 +48,22 @@
 </template>
 
 <script>
-  import Navbar from '@/components/Navbar.vue';
   export default {
-    name: 'Login',
-    components: {
-      Navbar
-    }
+    name: 'Login'
   };
 </script>
+
+<style scoped>
+  .card {
+    padding: 5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    color: #333;
+    box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border: none;
+  }
+  .alert-text {
+    padding-top: 0;
+  }
+</style>

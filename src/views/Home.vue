@@ -2,7 +2,7 @@
   <Navbar />
   <div class="container">
     <div class="home">
-      <div class="card bg-light border-white">
+      <div class="card">
         <h1>Welcome to Profile!</h1>
         <p>
           Here, you can search for and add reviews for professors in DLSU. We
@@ -22,7 +22,7 @@
             (Prof)ile allows students to read and write reviews on campus
             professors...
           </p>
-          <div><a href="about">Learn More.</a></div>
+          <div><router-link to="/about">Learn More.</router-link></div>
         </div>
         <div class="col-lg-4 col-m-4 col-xs-4">
           <br />
@@ -68,6 +68,8 @@
     padding-bottom: 3rem;
     color: #333;
     box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border: none;
   }
   img {
     width: 100%;
