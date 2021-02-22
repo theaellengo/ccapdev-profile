@@ -12,4 +12,4 @@ const ProfSchema = new mongoose.Schema({
   rating: { type: Number, max: 5, min: 1 }
 });
 
-module.exports = mongoose.model('Prof', ProfSchema);
+module.exports = mongoose.model('prof', ProfSchema);
