@@ -26,7 +26,7 @@
     font-family: 'Lato', sans-serif;
     font-size: 1rem;
     line-height: 1.6;
-    background-color: #fff;
+    background-color: #f2f8fd;
     color: #333;
   }
   a {

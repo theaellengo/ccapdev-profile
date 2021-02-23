@@ -4,8 +4,9 @@
     <div class="row">
       <div class="col-lg-8 col-m-8 col-xs-8">
         <br />
-        <h3>About (Prof)ile</h3>
-        <hr />
+        <h3 class="page-title">
+          <i class="fas fa-info-circle"></i> About (Prof)ile
+        </h3>
         <div class="card border-white">
           <div class="card-body">
             <h4 class="card-title">What can you do?</h4>
@@ -41,7 +42,7 @@
             </ul>
           </div>
         </div>
-        <div class="card border-white">
+        <div class="card">
           <div class="card-body">
             <h4 class="card-title">
               Confused about your role in this community?
@@ -122,6 +123,12 @@
 </script>
 
 <style scoped>
+  .card {
+    padding: 1rem;
+    border: none;
+    box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+  }
   h1,
   h2,
   h3 {
@@ -134,9 +141,6 @@
     color: #777;
     font-size: 0.8rem;
   }
-  .card {
-    margin-bottom: 1rem;
-  }
   .card-content {
     padding-left: 1rem;
   }
@@ -144,5 +148,8 @@
     list-style-type: disc !important;
     padding-left: 1em !important;
     margin-left: 1em;
+  }
+  .page-title {
+    color: #255075;
   }
 </style>

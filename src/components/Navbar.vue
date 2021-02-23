@@ -1,23 +1,26 @@
 <template>
-  <div>
-    <nav class="navbar bg-white">
-      <h1 class="navheader">
-        <router-link to="/home">
-          <i class="fas fa-address-book"></i> (Prof)ile
-        </router-link>
-      </h1>
-      <ul>
-        <li><router-link to="/about">About</router-link></li>
-        <li><router-link to="/help">Help</router-link></li>
-        <li><router-link to="/logout">Logout</router-link></li>
-      </ul>
-    </nav>
-  </div>
+  <nav class="navbar navbar-expand-lg bg-white">
+    <h1 class="navheader">
+      <router-link to="/home">
+        <i class="fas fa-address-book"></i> (Prof)ile
+      </router-link>
+    </h1>
+    <Searchbar class="searchbar" />
+    <ul>
+      <li><router-link to="/about">About</router-link></li>
+      <li><router-link to="/help">Help</router-link></li>
+      <li><router-link to="/logout">Logout</router-link></li>
+    </ul>
+  </nav>
 </template>
 
 <script>
+  import Searchbar from './Searchbar.vue';
   export default {
-    name: 'Navbar'
+    name: 'Navbar',
+    components: {
+      Searchbar
+    }
   };
 </script>
 
@@ -34,8 +37,8 @@
     z-index: 1;
     width: 100%;
     top: 0;
-    opacity: 0.9;
-    box-shadow: 0px 1px 5px grey;
+    opacity: 0.95;
+    box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.1);
   }
   .navbar ul {
     display: flex;
