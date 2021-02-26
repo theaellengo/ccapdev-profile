@@ -108,6 +108,9 @@
           </div>
         </div>
       </div>
+      <div class="col-lg-4 col-m-4 col-xs-4">
+        <img src="img/about.png" />
+      </div>
     </div>
   </div>
 </template>

@@ -21,7 +21,9 @@
         </div>
         <h5></h5>
       </div>
-      <div class="col-lg-4 col-m-4 col-xs-4"></div>
+      <div class="col-lg-4 col-m-4 col-xs-4">
+        <img src="img/help.png" />
+      </div>
     </div>
   </div>
 </template>
