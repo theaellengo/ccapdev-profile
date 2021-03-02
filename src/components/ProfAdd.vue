@@ -36,7 +36,7 @@
 
 <script>
   export default {
-    name: 'ProfEdit',
+    name: 'ProfAdd',
     props: ['viewdata']
   };
 </script>
