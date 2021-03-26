@@ -36,6 +36,13 @@
 .btn.btn-primary:hover {
   background: #3b87ca;
 }
+.btn.btn-danger {
+  background-color: #d9534f;
+  color: #fff;
+}
+.btn.btn-danger:hover {
+  background: #ff746f;
+}
 .btn:hover {
   background: #7a8793;
   color: #fff;
