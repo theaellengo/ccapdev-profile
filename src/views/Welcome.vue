@@ -10,8 +10,12 @@
           Look up and add reviews for professors in the University.
         </p>
         <div class="buttons">
-          <a href="register.html" class="btn btn-link">Sign Up</a>
-          <a href="login.html" class="btn btn-link">Login</a>
+          <router-link class="btn btn-link" to="/register">
+            Sign Up
+          </router-link>
+          <router-link class="btn btn-link" to="/register">
+            Log In
+          </router-link>
         </div>
       </div>
     </div>

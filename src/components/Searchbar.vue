@@ -1,5 +1,5 @@
 <template>
-  <form action="/search">
+  <form to="/search">
     <div class="row">
       <div class="col-9">
         <input

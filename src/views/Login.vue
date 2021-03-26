@@ -7,7 +7,6 @@
     </h1>
     <Searchbar class="searchbar" />
     <ul>
-      <li><router-link to="/help">Help</router-link></li>
       <li><router-link to="/register">Register</router-link></li>
       <li><router-link to="/login">Login</router-link></li>
     </ul>
@@ -40,7 +39,12 @@
           <input type="submit" value="Sign In" class="btn btn-primary" />
         </form>
         <p class="my-1">
-          Don't have an account? <a href="register.html">Register here.</a>
+          Don't have an account?
+          <router-link to="/register">
+            <a>
+              Register Here.
+            </a>
+          </router-link>
         </p>
       </div>
     </div>
@@ -56,5 +60,8 @@
 <style scoped>
   .alert-text {
     padding-top: 0;
+  }
+  router-link {
+    style: none;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <Navbar />
+  <AdminNav />
   <div class="container">
     <div class="profile">
       <br />
@@ -10,6 +10,17 @@
           <div class="profileheader">
             <span>
               <h3>Chua, Unisse</h3>
+            </span>
+            <span>
+              <div class="editbtn">
+                <button
+                  class="btn"
+                  id="show-modal"
+                  @click="showModal = !showModal"
+                >
+                  Edit Professor
+                </button>
+              </div>
             </span>
           </div>
           <div class="profilearea">
@@ -114,12 +125,31 @@
       </div>
     </div>
   </div>
+  <div v-if="showModal" class="dark-overlay">
+    <div class="editmodal">
+      <ProfEdit :viewdata="showModal" @clickedItem="showModal = !showModal" />
+    </div>
+  </div>
 </template>
 
 <script>
-  import Navbar from '@/components/Navbar.vue';
+  import AdminNav from '@/components/AdminNav.vue';
+  import ProfEdit from '@/components/ProfEdit.vue';
   export default {
-    name: 'Profile'
+    name: 'AdminProfile',
+    data: () => {
+      return {
+        idNum: 0,
+        showModal: false
+      };
+    },
+    components: {
+      AdminNav,
+      ProfEdit
+    },
+    created() {
+      this.idNum = this.$route.params.idNum;
+    }
   };
 </script>
 
