@@ -1,24 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-white">
-    <h1 class="navheader">
-      <router-link to="/">
-        <i class="fas fa-address-book"></i> (Prof)ile
-      </router-link>
-    </h1>
-    <Searchbar class="searchbar" />
-    <ul>
-      <li><router-link to="/register">Register</router-link></li>
-      <li><router-link to="/login">Login</router-link></li>
-    </ul>
-  </nav>
-
   <div class="login">
     <div class="container">
       <div class="card form-container">
-        <!--Alert-->
-        <div class="alert alert-text">
-          Invalid Credetials.
-        </div>
         <h1 class="large text-dark">
           Sign In
         </h1>
@@ -26,17 +9,21 @@
           <i class="fas fa-user"></i>
           Sign into your account
         </p>
-        <form action="home.html" class="form">
+        <form class="form">
+          <!--Alert-->
+          <div class="alert alert-text">
+            Invalid Credetials.
+          </div>
           <div class="form-group">
             <label class="control-label" for="email">Email:</label>
-            <input type="email" placeholder="Email Address" />
+            <input type="email" placeholder="Email Address" v-model="email"/>
           </div>
           <div class="form-group">
             <label class="control-label" for="pwd">Password:</label>
-            <input type="password" placeholder="Password" min-length="6" />
+            <input type="password" placeholder="Password" min-length="6" v-model="password"/>
           </div>
           <br />
-          <input type="submit" value="Sign In" class="btn btn-primary" />
+          <input value="Sign In" class="btn btn-primary" @click="login(email, password)"/>
         </form>
         <p class="my-1">
           Don't have an account?
@@ -52,8 +39,33 @@
 </template>
 
 <script>
+  import LoginService from '../services/LoginService';
+  import axios from 'axios';
+
+  const url = 'http://localhost:3000'
+
   export default {
-    name: 'Login'
+    name: 'Login',
+    data: () => {
+      return{
+        email: "",
+        password: ""
+      }
+    },
+    methods: {
+      async login(email, password) {
+        const credentials = { email, password };
+        LoginService.login(credentials)
+          .then(() => {
+            console.log('login done.');
+            this.$router.push({'name': 'Home'});
+          })
+          .catch((err) => {
+            console.log(`login failed with ERROR: ${err}`);
+            this.hasError = true;
+          });
+      },
+    },
   };
 </script>
 

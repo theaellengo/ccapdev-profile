@@ -5,7 +5,7 @@
         <i class="fas fa-address-book"></i> (Prof)ile
       </router-link>
     </h1>
-    <Searchbar class="searchbar" />
+    <Searchbar v-if="$route.name != 'Search'" class="searchbar" />
     <ul>
       <li><router-link to="/about">About</router-link></li>
       <li><router-link to="/help">Help</router-link></li>

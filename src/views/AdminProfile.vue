@@ -9,7 +9,7 @@
         <div class="card">
           <div class="profileheader">
             <span>
-              <h3>Chua, Unisse</h3>
+              <h3>{{prof.name}}</h3>
             </span>
             <span>
               <div class="editbtn">
@@ -31,24 +31,19 @@
               <tbody>
                 <tr>
                   <td>College:</td>
-                  <td>CCS</td>
-                </tr>
-                <tr>
-                  <td>Department:</td>
-                  <td>Software Technology Dept.</td>
+                  <td>{{prof.college}}</td>
                 </tr>
                 <tr>
                   <td>Courses</td>
-                  <td>CSSWENG, CCAPDEV, STSWENG</td>
+                  <td>{{prof.courses}}</td>
                 </tr>
                 <tr>
                   <td>Rating:</td>
-                  <td>
-                    <i class="fa fa-star fa-fw"></i>
-                    <i class="fa fa-star fa-fw"></i>
-                    <i class="fa fa-star fa-fw"></i>
-                    <i class="fa fa-star fa-fw"></i>
-                    <i class="fa fa-star fa-fw"></i>
+                  <td v-if="prof.rating != 0">
+                    {{prof.rating}}
+                  </td>
+                  <td v-else>
+                    Unrated
                   </td>
                 </tr>
               </tbody>
@@ -59,65 +54,23 @@
     </div>
     <br />
     <div id="reviewsection">
-      <div class="reviewbox">
-        <div class="addreviewheader">
-          <span><h4>Add Review</h4></span>
-        </div>
-        <div class="entry">
-          <div class="ratingarea">
-            <span>Rating: </span>
-            <span class="rating">
-              <!-- source: https://codepen.io/mmoradi08/pen/yLyYrGg-->
-              <span class="rating-stars">
-                <ul id="stars">
-                  <li class="star" data-value="1">
-                    <i class="far fa-star"></i>
-                  </li>
-                  <li class="star" data-value="2">
-                    <i class="far fa-star"></i>
-                  </li>
-                  <li class="star" data-value="3">
-                    <i class="far fa-star"></i>
-                  </li>
-                  <li class="star" data-value="4">
-                    <i class="far fa-star"></i>
-                  </li>
-                  <li class="star" data-value="5">
-                    <i class="far fa-star"></i>
-                  </li>
-                </ul>
-              </span>
-            </span>
-          </div>
-          <textarea
-            id="reviewcomment"
-            rows="10"
-            placeholder="Put your comment here"
-          ></textarea>
-          <div style="text-align: right; padding-top: 1rem">
-            <button type="button" class="btn btn-primary" id="submitReview">
-              Submit Review
-            </button>
-          </div>
-        </div>
-      </div>
-
       <div class="reviews">
         <div class="reviewheader">
           <span><h4>Reviews</h4></span>
         </div>
         <!--{{#each Review}}-->
         <div class="card reviewcard">
-          <div class="row">
-            <div class="col-1">
-              <img src="img/avatar.jpg" />
+          <div class="row reviewItem" v-for="item in reviews">
+            <div class="col-3">
+              <p>{{item.authorid}}</p>
+              <p>{{item.authorname}}</p>
             </div>
-            <div class="col-10">
-              <p>Rating: ★★★★</p>
-              <p>She is very nice and understanding!</p>
+            <div class="col-8">
+              <p>Rating: {{item.rating}}</p>
+              <p>{{item.comment}}</p>
             </div>
             <div class="col-1">
-              <a href="/" class="reportbtn">Report</a>
+              <span class="reportbtn" @click="deleteReview(item)">Delete</span>
             </div>
           </div>
         </div>
@@ -125,30 +78,66 @@
       </div>
     </div>
   </div>
-  <div v-if="showModal" class="dark-overlay">
-    <div class="editmodal">
-      <ProfEdit :viewdata="showModal" @clickedItem="showModal = !showModal" />
-    </div>
-  </div>
+  <ProfAdd :profOptionProp="editOption" :profData="prof" v-if="showModal" @close="closeModal()"/>
 </template>
 
 <script>
   import AdminNav from '@/components/AdminNav.vue';
-  import ProfEdit from '@/components/ProfEdit.vue';
+  import ProfAdd from '@/components/ProfAdd.vue';
+  import axios from 'axios';
+
+  const url = 'http://localhost:3000'
+
   export default {
     name: 'AdminProfile',
     data: () => {
       return {
         idNum: 0,
-        showModal: false
+        showModal: false,
+        editOption: "Edit",
+        prof: {
+          name: "",
+          idNum: "",
+          college: "",
+          courses: "",
+          rating: 0,
+        },
+        reviews: [],
       };
     },
     components: {
       AdminNav,
-      ProfEdit
+      ProfAdd
     },
-    created() {
-      this.idNum = this.$route.params.idNum;
+    methods: {
+      closeModal(){
+        this.$router.go();
+      },
+      async deleteReview(review){
+        const delId = review._id
+        const response = await axios.delete(`${url}/reviews/${review._id}`)
+        alert("Successfully deleted " + review.authorname + "' review!")
+        this.reviews = this.reviews.filter((x) => {
+          return x._id != delId
+        })
+        var ratingSum = 0
+        for(var i = 0; i < this.reviews.length; i++){
+          ratingSum+= this.reviews[i].rating
+        }
+        this.prof.rating = ratingSum/this.reviews.length
+        const editResponse = await axios.put(`${url}/profs/${this.prof._id}`,this.prof)
+        this.$router.go()
+      }
+    },
+    async created(){
+      if(this.$route.params.idNum){
+        const url = 'http://localhost:3000'
+        const response = await axios.get(`${url}/profs/${this.$route.params.idNum}`)
+        this.prof = response.data
+        const responseComments = await axios.get(`${url}/reviews/professor/${this.prof._id}`)
+        this.reviews = responseComments.data
+        console.log(this.prof)
+      }
     }
   };
 </script>
@@ -179,19 +168,13 @@
   .ratingarea {
     display: flex;
   }
-  ul li {
-    display: inline;
+  .reviewItem:first-of-type{
+    border-top: None;
+    padding-top: 0px
   }
-  #stars {
-    padding-left: 1rem;
-  }
-  .input:focus {
-    outline: none !important;
-    border: 1px solid red;
-    box-shadow: 0 0 10px #719ece;
-  }
-  .star:hover {
-    color: #3b87ca;
+  .reviewItem{
+    border-top: 1px solid #999;
+    padding-top: 1px
   }
   .card {
     margin-bottom: 2rem;

@@ -13,7 +13,7 @@
           <router-link class="btn btn-link" to="/register">
             Sign Up
           </router-link>
-          <router-link class="btn btn-link" to="/register">
+          <router-link class="btn btn-link" to="/login">
             Log In
           </router-link>
         </div>

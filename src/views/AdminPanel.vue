@@ -26,62 +26,75 @@
       </div>
       <div class="card">
         <table class="table table-borderless table-hover">
-          <caption>
+          <span>
             List of instructors
-          </caption>
+          </span>
           <thead>
             <tr class="label">
               <th scope="col"></th>
               <th scope="col">Name</th>
               <th scope="col">College</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Deborah Rose Buhion</td>
-              <td>CCS</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Thea Ellen Go</td>
-              <td>CCS</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Nick Matthew Intatano</td>
-              <td>CCS</td>
+            <tr v-for="item in profs">
+                <th scope="row"><a :href=item.hyperlink>{{item.idNum}}</a></th>
+                <td><a :href=item.hyperlink>{{item.name}}</a></td>
+                <td><a :href=item.hyperlink>{{item.college}}</a></td>
+                <td><input type="submit" value="Delete" v-on:click="delProf(item._id)"></td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
-  <div v-if="showAddModal" class="dark-overlay">
-    <div class="editmodal">
-      <ProfAdd
-        :viewdata="showAddModal"
-        @clickedItem="showAddModal = !showAddModal"
-      />
-    </div>
-  </div>
+  <ProfAdd
+    :profOptionProp="addOption"
+    v-if="showAddModal"
+    @close="closeModal()"
+  />
 </template>
 
 <script>
   import ProfAdd from '@/components/ProfAdd.vue';
   import Searchbar from '@/components/Searchbar.vue';
   import AdminNav from '@/components/AdminNav.vue';
+  import axios from 'axios';
+
   export default {
     name: 'AdminPanel',
     data: () => {
       return {
-        showAddModal: false
+        showAddModal: false,
+        addOption: "Add",
+        profs: [],
       };
     },
     components: {
       ProfAdd,
       Searchbar,
       AdminNav
+    },
+    methods:{
+      async delProf(id){
+        const url = 'http://localhost:3000'
+        const response = await axios.delete(`${url}/profs/${id}`)
+        console.log(response)
+        this.$router.go();
+      },
+      closeModal(){
+        this.$router.go();
+      }
+    },
+    async mounted(){
+      const url = 'http://localhost:3000'
+      const response = await axios.get(url + '/profs/all')
+      this.profs = response.data;
+      const link = window.location.origin + '/#/'
+      this.profs.forEach((x, i) => {
+        x.hyperlink = link + 'admin/profile/' + x.idNum
+      })
     }
   };
 </script>
@@ -96,10 +109,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 60%;
-  }
-  .dark-overlay {
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.6);
   }
   .header {
     display: flex;
@@ -143,13 +152,6 @@
   Searchbar {
     padding: 0;
     margin: 0;
-  }
-  .editmodal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60%;
   }
   .dark-overlay {
     position: fixed;

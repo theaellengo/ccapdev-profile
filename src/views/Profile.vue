@@ -9,7 +9,7 @@
         <div class="card">
           <div class="profileheader">
             <span>
-              <h3>Chua, Unisse</h3>
+              <h3>{{prof.name}}</h3>
             </span>
           </div>
           <div class="profilearea">
@@ -20,24 +20,19 @@
               <tbody>
                 <tr>
                   <td>College:</td>
-                  <td>CCS</td>
-                </tr>
-                <tr>
-                  <td>Department:</td>
-                  <td>Software Technology Dept.</td>
+                  <td>{{prof.college}}</td>
                 </tr>
                 <tr>
                   <td>Courses</td>
-                  <td>CSSWENG, CCAPDEV, STSWENG</td>
+                  <td>{{prof.courses}}</td>
                 </tr>
                 <tr>
                   <td>Rating:</td>
-                  <td>
-                    <i class="fa fa-star fa-fw"></i>
-                    <i class="fa fa-star fa-fw"></i>
-                    <i class="fa fa-star fa-fw"></i>
-                    <i class="fa fa-star fa-fw"></i>
-                    <i class="fa fa-star fa-fw"></i>
+                  <td v-if="prof.rating != 0">
+                    {{prof.rating}}
+                  </td>
+                  <td v-else>
+                    Unrated
                   </td>
                 </tr>
               </tbody>
@@ -56,35 +51,24 @@
           <div class="ratingarea">
             <span>Rating: </span>
             <span class="rating">
-              <!-- source: https://codepen.io/mmoradi08/pen/yLyYrGg-->
-              <span class="rating-stars">
-                <ul id="stars">
-                  <li class="star" data-value="1">
-                    <i class="far fa-star"></i>
-                  </li>
-                  <li class="star" data-value="2">
-                    <i class="far fa-star"></i>
-                  </li>
-                  <li class="star" data-value="3">
-                    <i class="far fa-star"></i>
-                  </li>
-                  <li class="star" data-value="4">
-                    <i class="far fa-star"></i>
-                  </li>
-                  <li class="star" data-value="5">
-                    <i class="far fa-star"></i>
-                  </li>
-                </ul>
-              </span>
+              <select name="rating" id="rating" v-model="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="0">Select a rating</option>
+              </select>
             </span>
           </div>
           <textarea
             id="reviewcomment"
             rows="10"
             placeholder="Put your comment here"
+            v-model="comment"
           ></textarea>
           <div style="text-align: right; padding-top: 1rem">
-            <button type="button" class="btn btn-primary" id="submitReview">
+            <button type="button" class="btn btn-primary" id="submitReview" @click="submitReview()">
               Submit Review
             </button>
           </div>
@@ -97,16 +81,17 @@
         </div>
         <!--{{#each Review}}-->
         <div class="card reviewcard">
-          <div class="row">
-            <div class="col-1">
-              <img src="img/avatar.jpg" />
+          <div class="row reviewItem" v-for="item in reviews">
+            <div class="col-3">
+              <p>{{item.authorid}}</p>
+              <p>{{item.authorname}}</p>
             </div>
-            <div class="col-10">
-              <p>Rating: ★★★★</p>
-              <p>She is very nice and understanding!</p>
+            <div class="col-8">
+              <p>Rating: {{item.rating}}</p>
+              <p>{{item.comment}}</p>
             </div>
             <div class="col-1">
-              <a href="/" class="reportbtn">Report</a>
+              <span class="reportbtn" @click="reportReview(item)">Report</span>
             </div>
           </div>
         </div>
@@ -118,8 +103,64 @@
 
 <script>
   import Navbar from '@/components/Navbar.vue';
+  import axios from 'axios';
+
+  const url = 'http://localhost:3000'
+
   export default {
-    name: 'Profile'
+    name: 'Profile',
+    components: {
+      Navbar
+    },
+    data: () => {
+      return {
+        prof: {
+          name: "",
+          idNum: "",
+          college: "",
+          courses: "",
+          rating: 0,
+        },
+        reviews: [],
+        rating: "0",
+        comment:"",
+      }
+    },
+    methods: {
+      async submitReview(){
+        const review = {
+          profid: this.prof._id,
+          authorid: "55",
+          authorname: "Dimagiba",
+          comment: this.comment,
+          rating: parseInt(this.rating),
+          date: Date.now(),
+          status: "posted"
+        }
+        const response = await axios.post(`${url}/reviews/`, review)
+        this.reviews.push(review)
+        var ratingSum = 0
+        for(var i = 0; i < this.reviews.length; i++){
+          ratingSum+= this.reviews[i].rating
+        }
+        this.prof.rating = ratingSum/this.reviews.length
+        const editResponse = await axios.put(`${url}/profs/${this.prof._id}`,this.prof)
+        this.$router.go()
+      },
+      async reportReview(review){
+        console.log(review)
+        const response = await axios.put(`${url}/reviews/report`, review)
+        alert("Successfully reported " + review.authorname + "review!")
+      }
+    },
+    async created(){
+      if(this.$route.params.idNum){
+        const response = await axios.get(`${url}/profs/${this.$route.params.idNum}`)
+        this.prof = response.data
+        const responseComments = await axios.get(`${url}/reviews/professor/${this.prof._id}`)
+        this.reviews = responseComments.data
+      }
+    }
   };
 </script>
 
@@ -143,31 +184,25 @@
     padding: 1rem;
     box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.1);
   }
+  .reviewItem:first-of-type{
+    border-top: None;
+    padding-top: 0px
+  }
+  .reviewItem{
+    border-top: 1px solid #999;
+    padding-top: 1px
+  }
   button {
     margin: 0;
   }
   .ratingarea {
     display: flex;
   }
-  ul li {
-    display: inline;
-  }
-  #stars {
-    padding-left: 1rem;
-  }
-  .input:focus {
-    outline: none !important;
-    border: 1px solid red;
-    box-shadow: 0 0 10px #719ece;
-  }
-  .star:hover {
-    color: #3b87ca;
-  }
   .card {
     margin-bottom: 2rem;
   }
   .reviewcard {
-    padding: 1rem;
+    padding: 2rem;
   }
   .reportbtn {
     color: #999;

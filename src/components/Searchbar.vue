@@ -6,19 +6,21 @@
           type="text"
           class="form-control"
           placeholder="Enter professor's name"
+          v-model="name"
+          v-on:keyup="submit"
         />
       </div>
       <div class="col-3">
-        <select id="searchfilterdiv" class="custom-select">
+        <select id="searchfilterdiv" class="custom-select" v-model="college">
           <option value="all" selected>All</option>
-          <option value="bagced">BAGCED</option>
-          <option value="ccs">CCS</option>
-          <option value="col">COL</option>
-          <option value="cla">COS</option>
-          <option value="cos">CLA</option>
-          <option value="gce">GCOE</option>
-          <option value="rvrcob">RVRCOB</option>
-          <option value="soe">SOE</option>
+          <option value="BAGCED">BAGCED</option>
+          <option value="CCS">CCS</option>
+          <option value="COL">COL</option>
+          <option value="CLA">COS</option>
+          <option value="COS">CLA</option>
+          <option value="GCOE">GCOE</option>
+          <option value="RVRCOB">RVRCOB</option>
+          <option value="SOE">SOE</option>
         </select>
       </div>
     </div>
@@ -27,7 +29,18 @@
 
 <script>
   export default {
-    name: 'Searchbar'
+    name: 'Searchbar',
+    data: () => ({
+      name: "",
+      college: "all",
+    }),
+    methods: {
+      submit(e){
+        if(e.keyCode === 13){
+            this.$router.push({name: 'Search', params: {searchName: this.name, searchCollege: this.college}})
+        }
+      }
+    },
   };
 </script>
 
