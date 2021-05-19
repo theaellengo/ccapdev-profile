@@ -11,10 +11,10 @@
         </p>
         <div class="buttons">
           <router-link class="btn btn-link" to="/register">
-            Sign Up
+            Register
           </router-link>
           <router-link class="btn btn-link" to="/login">
-            Log In
+            Sign
           </router-link>
         </div>
       </div>

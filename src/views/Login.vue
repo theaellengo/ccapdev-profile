@@ -49,7 +49,8 @@
     data: () => {
       return{
         email: "",
-        password: ""
+        password: "",
+        error: false
       }
     },
     methods: {

@@ -9,7 +9,7 @@
     <ul>
       <li><router-link to="/about">About</router-link></li>
       <li><router-link to="/help">Help</router-link></li>
-      <li><router-link to="/logout">Logout</router-link></li>
+      <li><span class="logout" @click="logout()">Logout</span></li>
     </ul>
   </nav>
 </template>
@@ -20,6 +20,12 @@
     name: 'Navbar',
     components: {
       Searchbar
+    },
+    methods: {
+      logout(){
+        localStorage.clear()
+        this.$router.push({name: 'Welcome'})
+      }
     }
   };
 </script>
@@ -58,5 +64,13 @@
     font-size: 1.4rem;
     padding: 0;
     margin: 0;
+  }
+  .logout {
+    color: #255075;
+    padding: 0.45rem;
+    margin: 0 0.25rem;
+  }
+  .logout:hover {
+    color: #3b87ca;
   }
 </style>
