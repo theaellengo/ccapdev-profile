@@ -57,9 +57,10 @@
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
-                <option value="0">Select a rating</option>
+                <option value="none">Select a rating</option>
               </select>
             </span>
+            <span v-if="ratingError" class="alert alert-text">"Please select a rating from 1-5"</span>
           </div>
           <textarea
             id="reviewcomment"
@@ -68,6 +69,7 @@
             v-model="comment"
           ></textarea>
           <div style="text-align: right; padding-top: 1rem">
+            <span v-if="commentError" class="alert alert-text">"Please provide your comments.  "</span>
             <button type="button" class="btn btn-primary" id="submitReview" @click="submitReview()">
               Submit Review
             </button>
@@ -122,30 +124,50 @@
           rating: 0,
         },
         reviews: [],
-        rating: "0",
+        rating: "none",
         comment:"",
+        ratingError: false,
+        commentError: false,
       }
     },
     methods: {
       async submitReview(){
-        const review = {
-          profid: this.prof._id,
-          authorid: "55",
-          authorname: "Dimagiba",
-          comment: this.comment,
-          rating: parseInt(this.rating),
-          date: Date.now(),
-          status: "posted"
+        if(this.validate()){
+          const review = {
+            profid: this.prof._id,
+            authorid: JSON.parse(localStorage.getItem('user')).idno,
+            authorname: JSON.parse(localStorage.getItem('user')).name,
+            comment: this.comment,
+            rating: parseInt(this.rating),
+            date: Date.now(),
+            status: "posted"
+          }
+          const response = await axios.post(`${url}/reviews/`, review)
+          this.reviews.push(review)
+          var ratingSum = 0
+          for(var i = 0; i < this.reviews.length; i++){
+            ratingSum+= this.reviews[i].rating
+          }
+          this.prof.rating = ratingSum/this.reviews.length
+          const editResponse = await axios.put(`${url}/profs/${this.prof._id}`,this.prof)
+          //this.$router.go()
         }
-        const response = await axios.post(`${url}/reviews/`, review)
-        this.reviews.push(review)
-        var ratingSum = 0
-        for(var i = 0; i < this.reviews.length; i++){
-          ratingSum+= this.reviews[i].rating
+      },
+      validate(){
+        if(this.rating=="none"){
+          this.ratingError=true
+        }else{
+          this.ratingError=false
         }
-        this.prof.rating = ratingSum/this.reviews.length
-        const editResponse = await axios.put(`${url}/profs/${this.prof._id}`,this.prof)
-        this.$router.go()
+        if(this.comment==""){
+          this.commentError=true
+        }else{
+          this.commentError=false
+        }
+        if(this.ratingError || this.commentError){
+          return false
+        }
+        return true
       },
       async reportReview(review){
         console.log(review)
@@ -196,7 +218,8 @@
     margin: 0;
   }
   .ratingarea {
-    display: flex;
+    display: block;
+    padding-bottom: 2px;
   }
   .card {
     margin-bottom: 2rem;
@@ -227,5 +250,8 @@
   .dark-overlay {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.6);
+  }
+  .alert-text {
+    padding-top: 0;
   }
 </style>

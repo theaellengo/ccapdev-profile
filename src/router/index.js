@@ -100,7 +100,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if (to.meta.adminOnly) { // check the meta field
-    if (JSON.parse(localStorage.getItem('role')).toLowerCase() === 'admin') { // check if the user's role is admin
+    if (JSON.parse(localStorage.getItem('user')).role.toLowerCase() === 'admin') { // check if the user's role is admin
       next(); // the next method allow the user to continue to the router
     } else {
       next('/'); // Redirect the user to the main page

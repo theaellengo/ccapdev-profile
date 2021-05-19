@@ -18,7 +18,8 @@
           </div>
           <div class="form-group">
             <label class="control-label" for="idno">IDNum:</label>
-            <input type="number" placeholder="  ID Number" id="idno" v-model="editProf.idNum"/>
+            <input v-if="profOptionProp == 'Add'" type="number" placeholder="  ID Number" id="idno" v-model="editProf.idNum"/>
+            <input v-if="profOptionProp == 'Edit'" type="number" placeholder="  ID Number" id="idno" v-model="editProf.idNum" disabled/>
           </div>
           <div class="form-group">
             <label class="control-label" for="college">College:</label>
