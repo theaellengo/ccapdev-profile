@@ -116,7 +116,7 @@
         }
         else{
           const res = await axios.post(`${url}/profs/checkID`, {idNum: this.editProf.idNum})
-          if(res.data.message == "taken"){
+          if(res.data.message == "taken" && this.profOptionProp == 'Add'){
             this.errors.idNoError = true
             this.errors.idNoErrorMsg = "ID number already taken!"
           }

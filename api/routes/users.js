@@ -112,4 +112,26 @@ router.post('/login', (req, res) => {
     });
 });
 
+router.post('/checkIDNo', async (req, res) => {
+    let { idno } = req.body
+    try{
+        const test = await userModel.findOne({idno: idno})
+        if(test) return res.status(200).json({message: "taken"})
+        else res.status(200).json({message: "not taken"})
+    }catch(error){
+        res.status(500).json({ message: error.message })
+    }
+})
+
+router.post('/checkemail', async (req, res) => {
+    let { email } = req.body
+    try{
+        const test = await userModel.findOne({email: email})
+        if(test) return res.status(200).json({message: "taken"})
+        else res.status(200).json({message: "not taken"})
+    }catch(error){
+        res.status(500).json({ message: error.message })
+    }
+})
+
 module.exports = router;
