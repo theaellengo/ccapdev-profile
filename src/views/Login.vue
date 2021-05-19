@@ -66,7 +66,10 @@
           LoginService.login(credentials)
             .then(() => {
               //console.log('login done.');
-              this.$router.push({'name': 'Home'});
+              if(JSON.parse(localStorage.getItem('user')).role.toLowerCase() === 'admin')
+                this.$router.push({'name': 'Admin'});
+              else
+                this.$router.push({'name': 'Home'});
             })
             .catch((err) => {
               //console.log(`login failed with ERROR: ${err.response.data.msg}`);

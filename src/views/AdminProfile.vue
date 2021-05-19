@@ -1,5 +1,4 @@
 <template>
-  <AdminNav />
   <div class="container">
     <div class="profile">
       <br />

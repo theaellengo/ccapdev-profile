@@ -1,11 +1,12 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-white">
     <h1 class="navheader">
-      <router-link to="/admin">
+      <router-link to="/home">
         <i class="fas fa-address-book"></i> (Prof)ile
       </router-link>
     </h1>
     <ul>
+      <li><router-link to="/admin">AdminPanel</router-link></li>
       <li><router-link to="/admin/reports">Reports</router-link></li>
       <li><span class="logout" @click="logout()">Logout</span></li>
     </ul>

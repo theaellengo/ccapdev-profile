@@ -1,6 +1,5 @@
 <template>
   <div class="admin-panel">
-    <AdminNav />
     <div class="container">
       <br />
       <div class="row">
@@ -8,9 +7,6 @@
           <h3 class="page-title">
             <i class="fas fa-search"></i> Search Results
           </h3>
-        </div>
-        <div class="col-7">
-          <Searchbar style="width: 80%; padding-bottom: 1rem" />
         </div>
         <div class="col-2">
           <div class="addbtn">

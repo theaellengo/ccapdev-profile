@@ -1,6 +1,5 @@
 <template>
   <div class="admin-panel">
-    <AdminNav />
     <div class="container">
       <br />
       <div class="row">

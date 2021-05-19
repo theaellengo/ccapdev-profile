@@ -1,10 +1,57 @@
 <template>
+  <Navbar v-if="showNav"/>
+  <AdminNav v-if="showAdminNav"/>
   <router-view />
 </template>
 
 <script>
+  import Navbar from '@/components/Navbar.vue'
+  import AdminNav from '@/components/AdminNav.vue'
+
   export default {
-    name: 'App'
+    name: 'App',
+    components: {
+      Navbar,
+      AdminNav
+    },
+    data() {
+      return {
+        showAdminNav: false,
+        showNav: false,
+        noNav: ['Welcome', 'Login', 'Register'],
+        adminNavPages: ['Admin', 'Reports', 'AdminProfile'],
+      }
+    },
+    watch: {
+      $route (to,from){
+        this.shouldShow()
+      }
+    },
+    methods: {
+      shouldShow(){
+        var routeName = this.$route.name
+        //console.log(routeName)
+        if(this.adminNavPages.includes(routeName) || (localStorage.getItem('user') != null && JSON.parse(localStorage.getItem('user')).role.toLowerCase() === 'admin')){
+          this.showNav = false
+          this.showAdminNav = true
+        }
+        else if(!this.noNav.includes(routeName)){
+          this.showNav = true
+          this.showAdminNav = false
+        }
+        else{
+          this.showNav = false
+          this.showAdminNav = false
+        }
+        //console.log('Show Admin Nav: ' + this.showAdminNav + "\nShow Nav: " + this.showNav)
+      }
+    },
+    mounted(){
+      this.shouldShow()
+    },
+    beforeUpdate(){
+      this.shouldShow()
+    }
   };
 </script>
 
