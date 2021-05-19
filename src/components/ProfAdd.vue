@@ -79,7 +79,7 @@
     }),
     methods: {
       async addNew(){
-          if(this.validate()){
+          if(await this.validate()){
             try{
               const response = await axios.post(url + '/profs/', this.editProf)
               this.close()
@@ -103,7 +103,7 @@
         this.reset()
         this.$emit('close')
       },
-      validate(){
+      async validate(){
         if(this.editProf.name == ""){
           this.errors.nameError = true
           this.errors.nameErrorMsg = "Please input a name"
@@ -115,7 +115,14 @@
           this.errors.idNoErrorMsg = "Please input an ID Number"
         }
         else{
-          this.errors.idNoError = false
+          const res = await axios.post(`${url}/profs/checkID`, {idNum: this.editProf.idNum})
+          if(res.data.message == "taken"){
+            this.errors.idNoError = true
+            this.errors.idNoErrorMsg = "ID number already taken!"
+          }
+          else{
+            this.errors.idNoError = false
+          }
         }
         if(this.editProf.college == ""){
           this.errors.collegeError = true
@@ -134,7 +141,9 @@
         if(this.errors.nameError || this.errors.idNoError || this.errors.collegeError || this.errors.coursesError){
           return false
         }
-        return true
+        else {
+          return true
+        }
       },
       reset(){
         this.editProf._id = undefined
