@@ -11,18 +11,20 @@
         </p>
         <form class="form">
           <!--Alert-->
-          <div class="alert alert-text">
-            Invalid Credetials.
+          <div class="alert alert-text" v-if="errors.loginError">
+            The email address and password you entered did not match our records. Please try again.
+          </div>
+          <div class="alert alert-text" v-else>
+            ⠀
           </div>
           <div class="form-group">
-            <label class="control-label" for="email">Email:</label>
+            <label class="control-label" for="email">Email: <span v-if="errors.emailError" class="alert alert-text">Please input your email address</span></label>
             <input type="email" placeholder="Email Address" v-model="email"/>
           </div>
           <div class="form-group">
-            <label class="control-label" for="pwd">Password:</label>
+            <label class="control-label" for="pwd">Password: <span v-if="errors.passwordError" class="alert alert-text">Please input your password</span></label>
             <input type="password" placeholder="Password" min-length="6" v-model="password"/>
           </div>
-          <br />
           <input value="Sign In" class="btn btn-primary" @click="login(email, password)"/>
         </form>
         <p class="my-1">
@@ -50,22 +52,48 @@
       return{
         email: "",
         password: "",
-        error: false
+        errors: {
+          loginError: false,
+          emailError: false,
+          passwordError: false,
+        }
       }
     },
     methods: {
       async login(email, password) {
-        const credentials = { email, password };
-        LoginService.login(credentials)
-          .then(() => {
-            console.log('login done.');
-            this.$router.push({'name': 'Home'});
-          })
-          .catch((err) => {
-            console.log(`login failed with ERROR: ${err}`);
-            this.hasError = true;
-          });
+        if(this.validate()){
+          const credentials = { email, password };
+          LoginService.login(credentials)
+            .then(() => {
+              //console.log('login done.');
+              this.$router.push({'name': 'Home'});
+            })
+            .catch((err) => {
+              //console.log(`login failed with ERROR: ${err.response.data.msg}`);
+              this.errors.loginError = true;
+            });
+        }
       },
+      validate(){
+        if(this.email == ""){
+          this.emailError = true
+        }
+        else{
+          this.errors.emailError = false
+        }
+        if(this.password == ""){
+          this.errors.passwordError = true
+        }
+        else{
+          this.errors.passwordError = false
+        }
+        if(this.errors.emailError || this.errors.passwordError){
+          return false
+        }
+        else{
+          return true
+        }
+      }
     },
     created() {
       if (JSON.parse(localStorage.getItem('auth-token'))) { // if logged in

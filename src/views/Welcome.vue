@@ -14,7 +14,7 @@
             Register
           </router-link>
           <router-link class="btn btn-link" to="/login">
-            Sign
+            Sign In
           </router-link>
         </div>
       </div>
