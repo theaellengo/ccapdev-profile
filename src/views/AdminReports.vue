@@ -1,6 +1,5 @@
 <template>
   <div class="admin-panel">
-    <AdminNav />
     <div class="container">
       <br />
       <div class="row">
@@ -13,12 +12,12 @@
         <div class="card toolbar">
           <div class="col-12">
             <div class="addbtn">
-              <button class="btn btn-primary">
-                Remove from List
+              <button class="btn btn-primary" @click="flagOK()">
+                Flag as OK
               </button>
             </div>
             <div class="addbtn">
-              <button class="btn btn-danger">
+              <button class="btn btn-danger" @click="delReports()">
                 Delete Comments
               </button>
             </div>
@@ -27,9 +26,9 @@
       </div>
       <div class="card">
         <table class="table table-borderless table-hover">
-          <caption>
+          <span>
             List of Reports
-          </caption>
+          </span>
           <thead>
             <tr class="label">
               <th scope="col"></th>
@@ -38,63 +37,24 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="item in reviews">
               <th scope="row">
                 <div class="form-check">
                   <input
                     class="form-check-input"
                     type="checkbox"
-                    value=""
+                    v-model="item.checked"
+                    true-value="checked"
+                    false-value="not"
                     id="flexCheckDefault"
                   />
                 </div>
               </th>
               <td>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                {{item.comment}}
               </td>
               <td>
-                Anonymouse
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="flexCheckDefault"
-                  />
-                </div>
-              </th>
-              <td>
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                qui officia deserunt mollit anim id est laborum.
-              </td>
-              <td>
-                Jennieee
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="flexCheckDefault"
-                  />
-                </div>
-              </th>
-              <td>
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur.
-              </td>
-              <td>
-                Eloise
+                {{item.authorname}}
               </td>
             </tr>
           </tbody>
@@ -108,17 +68,48 @@
   import ProfAdd from '@/components/ProfAdd.vue';
   import Searchbar from '@/components/Searchbar.vue';
   import AdminNav from '@/components/AdminNav.vue';
+  import axios from 'axios';
+
   export default {
     name: 'AdminReports',
     data: () => {
       return {
-        showAddModal: false
+        showAddModal: false,
+        reviews: []
       };
     },
     components: {
       ProfAdd,
       Searchbar,
       AdminNav
+    },
+    methods: {
+      async flagOK(){
+        const url = 'http://localhost:3000'
+        var response = null
+        for(var i = 0; i < this.reviews.length; i++){
+          if(this.reviews[i].checked == "checked")
+            response = await axios.put(`${url}/reviews/cleanse`,this.reviews[i])
+        }
+        this.$router.go()
+      },
+      async delReports(){
+        const url = 'http://localhost:3000'
+        var response = null
+        for(var i = 0; i < this.reviews.length; i++){
+          if(this.reviews[i].checked == "checked")
+            response = await axios.delete(`${url}/reviews/${this.reviews[i]._id}`)
+        }
+        this.$router.go()
+      }
+    },
+    async mounted(){
+      const url = 'http://localhost:3000'
+      const response = await axios.get(`${url}/reviews/reports`)
+      this.reviews = response.data
+      this.reviews.forEach((x, i) => {
+        x.checked = "not";
+      })
     }
   };
 </script>

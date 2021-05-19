@@ -11,10 +11,10 @@
         </p>
         <div class="buttons">
           <router-link class="btn btn-link" to="/register">
-            Sign Up
+            Register
           </router-link>
-          <router-link class="btn btn-link" to="/register">
-            Log In
+          <router-link class="btn btn-link" to="/login">
+            Sign In
           </router-link>
         </div>
       </div>
@@ -24,7 +24,12 @@
 
 <script>
   export default {
-    name: 'Welcome'
+    name: 'Welcome',
+    created() {
+      if (JSON.parse(localStorage.getItem('auth-token'))) { // if logged in
+        this.$router.push({name: 'Home'});
+      }
+    }
   };
 </script>
 

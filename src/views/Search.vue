@@ -1,13 +1,36 @@
 <template>
-  <Navbar />
   <div class="container">
     <br />
+    <div class="row">
+      <div class="col-9">
+        <input
+              type="text"
+              class="form-control"
+              placeholder="Enter professor's name"
+              v-model="name"
+              v-on:keyup="submit"
+        />
+      </div>
+      <div class="col-3">
+        <select id="searchfilterdiv" class="custom-select" v-model="college">
+            <option value="all" selected>All</option>
+            <option value="BAGCED">BAGCED</option>
+            <option value="CCS">CCS</option>
+            <option value="COL">COL</option>
+            <option value="CLA">COS</option>
+            <option value="COS">CLA</option>
+            <option value="GCOE">GCOE</option>
+            <option value="RVRCOB">RVRCOB</option>
+            <option value="SOE">SOE</option>
+        </select>
+      </div>
+    </div>
     <h3 class="page-title"><i class="fas fa-search"></i> Search Results</h3>
     <div class="card">
       <table class="table table-borderless table-hover">
-        <caption>
+        <span>
           List of instructors
-        </caption>
+        </span>
         <thead>
           <tr class="label">
             <th scope="col"></th>
@@ -16,20 +39,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Deborah Rose Buhion</td>
-            <td>CCS</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Thea Ellen Go</td>
-            <td>CCS</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Nick Matthew Intatano</td>
-            <td>CCS</td>
+          <tr v-for="item in profs">
+            <th scope="row"><a :href=item.hyperlink>{{item.idNum}}</a></th>
+            <td><a :href=item.hyperlink>{{item.name}}</a></td>
+            <td><a :href=item.hyperlink>{{item.college}}</a></td>
           </tr>
         </tbody>
       </table>
@@ -39,11 +52,46 @@
 
 <script>
   import Navbar from '@/components/Navbar.vue';
+  import axios from 'axios';
+
   export default {
     name: 'Search',
     components: {
       Navbar
-    }
+    },
+    props: {
+      searchName: String,
+      searchCollege: String,
+    },
+    data: () => ({
+      profs: [],
+      name: "",
+      college: "all",
+    }),
+    methods: {
+      async search(){
+        const url = 'http://localhost:3000'
+        console.log("Name: " + this.name + "\nCollege: " + this.college)
+        const response = await axios.post(`${url}/profs/search`, {searchName: this.name, searchCollege: this.college})
+        this.profs = response.data;
+        const link = window.location.origin + '/#/'
+        this.profs.forEach((x, i) => {
+          x.hyperlink = link + 'profile/' + x.idNum
+        })
+        console.log(this.profs)
+      },
+      submit(e){
+        if(e.keyCode === 13){
+            this.search()
+        }
+      }
+    },
+    async mounted(){
+      console.log('Mounted!')
+      this.name = this.searchName;
+      this.college = this.searchCollege
+      this.search()
+    },
   };
 </script>
 

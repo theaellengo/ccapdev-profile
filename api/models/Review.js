@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
 const ReviewSchema = new mongoose.Schema({
-  prof: { type: Schema.Types.ObjectId, ref: 'prof' },
-  author: { type: Schema.Types.ObjectId, ref: 'user' },
+  profid: { type: mongoose.Schema.Types.ObjectId, ref: 'prof' },
+  authorid: { type: String},
+  authorname: { type: String},
   comment: { type: String, required: true, max: 300 },
   rating: { type: Number, required: true, max: 5, min: 1 },
   date: { type: Date, required: true },

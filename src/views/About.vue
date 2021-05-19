@@ -1,5 +1,4 @@
 <template>
-  <Navbar />
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-m-8 col-xs-8">

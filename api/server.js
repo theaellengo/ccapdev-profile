@@ -1,18 +1,45 @@
 const express = require('express');
-const connectDB = require('./config/db');
+const { envPort, mongoURI } = require('./config');
+const mongoose = require('mongoose');
+const cors = require('cors') // will allow us to make ajax requests from frontend to backend
+const morgan = require('morgan') //http requests automatic logger
+
+// import routes
+const usersRoutes = require('./routes/users')
+const reviewRoutes = require('./routes/reviews')
+const profsRoutes = require('./routes/profs')
+
+// create express app
 const app = express();
+const port = envPort;
 
-connectDB();
+// setup mongoose
+const options = { 
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false 
+};
 
-// Middleware
-app.use(express.json({ extended: false }));
+// Setup middlewares
+app.use(express.json()); // support json encoded bodies
+app.use(express.urlencoded({ extended: true })); // support encoded bodies
+app.use(cors()); // allow access to API from difference sources
+app.use(morgan('tiny')) // logs HTTP requests
 
-app.get('/', (req, res) => res.send('Hello World'));
+// serve static files 
+app.use(express.static('public'));
+mongoose.connect(mongoURI, options)
+.then(() => {
+    console.log(`Database connected successfully ${mongoURI}`)
+}).catch(err => {
+    console.log(`Unable to connect with the database ${err}`)
+});
 
-//Routes
-app.use('/api/users', require('./routes/api/users'));
-app.use('/api/auth', require('./routes/api/auth'));
-app.use('/api/profs', require('./routes/api/profs'));
+// add routes
+app.use('/users', usersRoutes);
+app.use('/reviews', reviewRoutes);
+app.use('/profs', profsRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// listen on port
+app.listen(port, () => console.log(`Listening to ${port}`));

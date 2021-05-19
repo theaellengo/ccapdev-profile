@@ -1,5 +1,4 @@
 <template>
-  <Navbar />
   <div class="container">
     <div class="home">
       <div class="card">
@@ -27,22 +26,11 @@
         <div class="col-lg-4 col-m-4 col-xs-4">
           <br />
           <br />
-          <h4>Categories</h4>
+          <h4>Filter by College</h4>
           <p>
             Trouble finding your profs? Good News! You can filter them out by
             college!
           </p>
-          <select id="searchfilterdiv" class="custom-select">
-            <option value="all" selected>All</option>
-            <option value="bagced">BAGCED</option>
-            <option value="ccs">CCS</option>
-            <option value="col">COL</option>
-            <option value="cla">COS</option>
-            <option value="cos">CLA</option>
-            <option value="gce">GCOE</option>
-            <option value="rvrcob">RVRCOB</option>
-            <option value="soe">SOE</option>
-          </select>
         </div>
       </div>
     </div>
