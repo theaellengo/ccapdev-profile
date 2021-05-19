@@ -1,17 +1,4 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-white">
-    <h1 class="navheader">
-      <router-link to="/">
-        <i class="fas fa-address-book"></i> (Prof)ile
-      </router-link>
-    </h1>
-    <Searchbar class="searchbar" />
-    <ul>
-      <li><router-link to="/register">Register</router-link></li>
-      <li><router-link to="/login">Login</router-link></li>
-    </ul>
-  </nav>
-
   <div class="register">
     <div class="container">
       <div class="card form-container">
@@ -105,6 +92,11 @@
           this.$router.push({'name': 'Login'})
         }
       }
+    },
+    created() {
+      if (JSON.parse(localStorage.getItem('auth-token'))) { // if logged in
+        this.$router.push({name: 'Home'});
+      }
     }
   };
 </script>
@@ -112,9 +104,6 @@
 <style scoped>
   .alert-text {
     padding-top: 0;
-  }
-  .alert-text:empty{
-    content: "\200b";
   }
   router-link {
     style: none;

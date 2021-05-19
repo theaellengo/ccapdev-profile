@@ -150,6 +150,7 @@
           }
           this.prof.rating = ratingSum/this.reviews.length
           const editResponse = await axios.put(`${url}/profs/${this.prof._id}`,this.prof)
+          this.reset()
           //this.$router.go()
         }
       },
@@ -168,6 +169,12 @@
           return false
         }
         return true
+      },
+      reset(){
+        this.rating="none"
+        this.comment=""
+        this.ratingError=false
+        this.commentError=false
       },
       async reportReview(review){
         console.log(review)

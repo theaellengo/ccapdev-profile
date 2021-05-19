@@ -6,13 +6,15 @@ const router = Router()
 router.post('/', async (req, res) =>{ // create new Prof
     const newProf = new profsModel(req.body)
     try{
+        const test = await profsModel.findOne({idNum: newProf.idNum})
+        if(test) return res.status(400).json({message: "ID number already taken!"})
+
         const profsList = await newProf.save()
         if(!profsList) throw new Error('Error in saving to database')
     
         res.status(200).json(profsList);
     }catch(error) {
         res.status(500).json({ message: error.message })
-        
     }
 })
 

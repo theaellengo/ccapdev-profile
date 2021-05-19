@@ -13,16 +13,16 @@
         </div>
         <form class="form">
           <div class="form-group">
-            <label class="control-label" for="username">Name:</label>
-            <input type="text" placeholder="Name" v-model="editProf.name" />
+            <label class="control-label" for="username">Name: <span v-if="errors.nameError" class="alert alert-text">{{errors.nameErrorMsg}}</span></label>
+            <input type="text" placeholder="Firstname MI Lastname" v-model="editProf.name" />
           </div>
           <div class="form-group">
-            <label class="control-label" for="idno">IDNum:</label>
-            <input v-if="profOptionProp == 'Add'" type="number" placeholder="  ID Number" id="idno" v-model="editProf.idNum"/>
-            <input v-if="profOptionProp == 'Edit'" type="number" placeholder="  ID Number" id="idno" v-model="editProf.idNum" disabled/>
+            <label class="control-label" for="idno">IDNum: <span v-if="errors.idNoError" class="alert alert-text">{{errors.idNoErrorMsg}}</span></label>
+            <input v-if="profOptionProp == 'Add'" type="number" placeholder="ID Number" id="idno" v-model="editProf.idNum"/>
+            <input v-if="profOptionProp == 'Edit'" type="number" placeholder="ID Number" id="idno" v-model="editProf.idNum" disabled/>
           </div>
           <div class="form-group">
-            <label class="control-label" for="college">College:</label>
+            <label class="control-label" for="college">College: <span v-if="errors.collegeError" class="alert alert-text">{{errors.collegeErrorMsg}}</span></label>
             <select name="college" id="college" v-model="editProf.college">
               <option value="BAGCED">BAGCED</option>
               <option value="CCS">CCS</option>
@@ -35,7 +35,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label class="control-label" for="email">Courses:</label>
+            <label class="control-label" for="email">Courses: <span v-if="errors.coursesError" class="alert alert-text">{{errors.coursesErrorMsg}}</span></label>
             <input type="text" placeholder="Courses" v-model="editProf.courses" />
           </div>
           <br />
@@ -65,21 +65,76 @@
         idNum: "",
         name: "",
         rating: 0,
-      }
+      },
+      errors: {
+          nameError: false,
+          nameErrorMsg: "",
+          idNoError: false,
+          idNoErrorMsg: "",
+          collegeError: false,
+          collegeErrorMsg: "",
+          coursesError: false,
+          coursesErrorMsg: "",
+        }
     }),
     methods: {
       async addNew(){
-          const response = await axios.post(url + '/profs/', this.editProf)
-          this.close()
+          if(this.validate()){
+            try{
+              const response = await axios.post(url + '/profs/', this.editProf)
+              this.close()
+            }
+            catch(err){
+              let msg = err.response.data.message
+              if(msg.localeCompare("ID number already taken!") == 0){
+                this.errors.idNoError = true
+                this.errors.idNoErrorMsg = "ID number already taken!"
+              }
+            }
+          }
       },
       async editDone(){
-          console.log('done editing!')
-          const response = await axios.put(url + '/profs/' + this.editProf._id, this.editProf)
-          this.close()
+          if(this.validate()){
+            const response = await axios.put(url + '/profs/' + this.editProf._id, this.editProf)
+            this.close()
+          }
       },
       close(){
         this.reset()
         this.$emit('close')
+      },
+      validate(){
+        if(this.editProf.name == ""){
+          this.errors.nameError = true
+          this.errors.nameErrorMsg = "Please input a name"
+        } else{
+          this.errors.nameError = false
+        }
+        if(this.editProf.idNum == ""){
+          this.errors.idNoError = true
+          this.errors.idNoErrorMsg = "Please input an ID Number"
+        }
+        else{
+          this.errors.idNoError = false
+        }
+        if(this.editProf.college == ""){
+          this.errors.collegeError = true
+          this.errors.collegeErrorMsg = "Please select a college"
+        }
+        else{
+          this.errors.collegeError = false
+        }
+        if(this.editProf.courses == ""){
+          this.errors.coursesError = true
+          this.errors.coursesErrorMsg = "Please input some courses"
+        }
+        else{
+          this.errors.coursesError = false
+        }
+        if(this.errors.nameError || this.errors.idNoError || this.errors.collegeError || this.errors.coursesError){
+          return false
+        }
+        return true
       },
       reset(){
         this.editProf._id = undefined
@@ -89,12 +144,8 @@
       }
     },
     async created(){
-      console.log("Created!")
-      console.log(this.profData)
       if(this.profOptionProp == 'Edit'){
-        console.log('Editing')
         this.editProf = Object.assign({}, this.profData)
-        console.log(this.editProf)
       }
     }
   };
