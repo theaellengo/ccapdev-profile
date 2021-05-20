@@ -3,12 +3,12 @@
     <div class="container">
       <br />
       <div class="row pad1">
-        <div class="col-3">
+        <div class="col-6">
           <h3 class="page-title">
             List of Professors
           </h3>
         </div>
-        <div class="col-2">
+        <div class="col-6">
           <div class="addbtn">
             <button
               class="btn btn-primary"
@@ -20,6 +20,7 @@
           </div>
         </div>
       </div>
+      <br />
       <div class="card">
         <table class="table table-borderless table-hover">
           <thead>
@@ -32,10 +33,25 @@
           </thead>
           <tbody>
             <tr v-for="item in profs">
-                <th scope="row"><a :href=item.hyperlink>{{item.college}}</a></th>
-                <td><a :href=item.hyperlink>{{item.name}}</a></td>
-                <td><a :href=item.hyperlink>{{item.rating}}</a></td>
-                <td><input type="submit" value="Delete" v-on:click="delProf(item._id)"></td>
+              <th scope="row">
+                <a :href="item.hyperlink">{{ item.college }}</a>
+              </th>
+              <td>
+                <a :href="item.hyperlink">{{ item.name }}</a>
+              </td>
+              <td>
+                <a :href="item.hyperlink">{{ item.rating }}</a>
+              </td>
+              <td>
+                <div class="delbtn">
+                  <input
+                    class="btn btn-danger"
+                    type="submit"
+                    value="Delete"
+                    v-on:click="delProf(item._id)"
+                  />
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -60,8 +76,8 @@
     data: () => {
       return {
         showAddModal: false,
-        addOption: "Add",
-        profs: [],
+        addOption: 'Add',
+        profs: []
       };
     },
     components: {
@@ -69,30 +85,31 @@
       Searchbar,
       AdminNav
     },
-    methods:{
-      async delProf(id){
-        const url = 'http://localhost:3000'
-        const response = await axios.delete(`${url}/profs/${id}`)
-        console.log(response)
+    methods: {
+      async delProf(id) {
+        const url = 'http://localhost:3000';
+        const response = await axios.delete(`${url}/profs/${id}`);
+        console.log(response);
         this.$router.go();
       },
-      closeModal(){
+      closeModal() {
         this.$router.go();
       }
     },
-    async mounted(){
-      const url = 'http://localhost:3000'
-      const response = await axios.get(url + '/profs/all')
+    async mounted() {
+      const url = 'http://localhost:3000';
+      const response = await axios.get(url + '/profs/all');
       this.profs = response.data;
-      const link = window.location.origin + '/#/'
+      const link = window.location.origin + '/#/';
       this.profs.forEach((x, i) => {
-        x.hyperlink = link + 'admin/profile/' + x.idNum
-      })
+        x.hyperlink = link + 'admin/profile/' + x.idNum;
+      });
     }
   };
 </script>
 
 <style scoped>
+  .delbtn,
   .addbtn {
     float: right;
   }
@@ -150,7 +167,7 @@
     position: fixed;
     background-color: rgba(0, 0, 0, 0.6);
   }
-  .pad1{
+  .pad1 {
     padding-left: 10px;
   }
 </style>
