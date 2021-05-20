@@ -2,7 +2,7 @@
   <div class="container">
     <br />
     <div class="row">
-      <div class="col-9">
+      <div class="col-4">
         <input
               type="text"
               class="form-control"
@@ -24,25 +24,36 @@
             <option value="SOE">SOE</option>
         </select>
       </div>
+      <div class="col-3">
+        <button
+          class="btn btn-primary"
+          @click="search()"
+        >
+          Search
+        </button>
+      </div>
     </div>
     <h3 class="page-title"><i class="fas fa-search"></i> Search Results</h3>
     <div class="card">
+      <span>
+        List of instructors
+      </span>
       <table class="table table-borderless table-hover">
-        <span>
-          List of instructors
-        </span>
         <thead>
           <tr class="label">
-            <th scope="col"></th>
-            <th scope="col">Name</th>
             <th scope="col">College</th>
+            <th scope="col">Name</th>
+            <th scope="col">Rating</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in profs">
-            <th scope="row"><a :href=item.hyperlink>{{item.idNum}}</a></th>
+            <tr scope="row"><a :href=item.hyperlink>{{item.college}}</a></tr>
             <td><a :href=item.hyperlink>{{item.name}}</a></td>
-            <td><a :href=item.hyperlink>{{item.college}}</a></td>
+            <td>
+              <a :href=item.hyperlink v-if="item.rating > 0">{{item.rating}}</a>
+              <a :href=item.hyperlink v-else>Unrated</a>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -71,6 +82,8 @@
     methods: {
       async search(){
         const url = 'http://localhost:3000'
+        if(this.name == undefined)
+          this.name=""
         console.log("Name: " + this.name + "\nCollege: " + this.college)
         const response = await axios.post(`${url}/profs/search`, {searchName: this.name, searchCollege: this.college})
         this.profs = response.data;

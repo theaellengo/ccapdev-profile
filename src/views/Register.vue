@@ -97,6 +97,10 @@
           this.errors.idNoError = true
           this.errors.idNoErrorMsg = 'Please enter your ID number'
         }
+        else if(!(this.newUser.idno.length == 8)){
+          this.errors.idNoError = true
+          this.errors.idNoErrorMsg = 'Please enter a valid ID number'
+        }
         else{
           const res = await axios.post(`${url}/users/checkIDno`, {idno: this.newUser.idno})
           if(res.data.message == "taken"){

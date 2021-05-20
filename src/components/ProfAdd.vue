@@ -13,16 +13,16 @@
         </div>
         <form class="form">
           <div class="form-group">
-            <label class="control-label" for="username">Name: <span v-if="errors.nameError" class="alert alert-text">{{errors.nameErrorMsg}}</span></label>
+            <label class="control-label" for="username">Name <span v-if="errors.nameError" class="alert alert-text">{{errors.nameErrorMsg}}</span></label>
             <input type="text" placeholder="Firstname MI Lastname" v-model="editProf.name" />
           </div>
           <div class="form-group">
-            <label class="control-label" for="idno">IDNum: <span v-if="errors.idNoError" class="alert alert-text">{{errors.idNoErrorMsg}}</span></label>
+            <label class="control-label" for="idno">ID Number <span v-if="errors.idNoError" class="alert alert-text">{{errors.idNoErrorMsg}}</span></label>
             <input v-if="profOptionProp == 'Add'" type="number" placeholder="ID Number" id="idno" v-model="editProf.idNum"/>
             <input v-if="profOptionProp == 'Edit'" type="number" placeholder="ID Number" id="idno" v-model="editProf.idNum" disabled/>
           </div>
           <div class="form-group">
-            <label class="control-label" for="college">College: <span v-if="errors.collegeError" class="alert alert-text">{{errors.collegeErrorMsg}}</span></label>
+            <label class="control-label" for="college">College <span v-if="errors.collegeError" class="alert alert-text">{{errors.collegeErrorMsg}}</span></label>
             <select name="college" id="college" v-model="editProf.college">
               <option value="BAGCED">BAGCED</option>
               <option value="CCS">CCS</option>
@@ -35,7 +35,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label class="control-label" for="email">Courses: <span v-if="errors.coursesError" class="alert alert-text">{{errors.coursesErrorMsg}}</span></label>
+            <label class="control-label" for="email">Courses <span v-if="errors.coursesError" class="alert alert-text">{{errors.coursesErrorMsg}}</span></label>
             <input type="text" placeholder="Courses" v-model="editProf.courses" />
           </div>
           <br />
