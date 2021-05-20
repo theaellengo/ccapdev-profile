@@ -1,7 +1,8 @@
 <template>
   <form>
     <div class="row">
-      <div class="col-6">
+      <div class="col-1 search"></div>
+      <div class="col-6 search">
         <input
           type="text"
           class="form-control"
@@ -10,7 +11,7 @@
           v-on:keyup="submit"
         />
       </div>
-      <div class="col-3">
+      <div class="col-2 search">
         <select id="searchfilterdiv" class="custom-select" v-model="college">
           <option value="all" selected>All</option>
           <option value="BAGCED">BAGCED</option>
@@ -23,14 +24,12 @@
           <option value="SOE">SOE</option>
         </select>
       </div>
-      <div class="col-3">
-        <button
-          class="btn btn-primary"
-          @click="search()"
-        >
+      <div class="col-2 search">
+        <button class="searchbtn btn btn-primary" @click="search()">
           Search
         </button>
       </div>
+      <div class="col-1 search"></div>
     </div>
   </form>
 </template>
@@ -39,23 +38,39 @@
   export default {
     name: 'Searchbar',
     data: () => ({
-      name: "",
-      college: "all",
+      name: '',
+      college: 'all'
     }),
     methods: {
-      submit(e){
-        if(e.keyCode === 13){
-            this.$router.push({name: 'Search', params: {searchName: this.name, searchCollege: this.college}})
+      submit(e) {
+        if (e.keyCode === 13) {
+          this.$router.push({
+            name: 'Search',
+            params: { searchName: this.name, searchCollege: this.college }
+          });
         }
       },
-      search(){
-        this.$router.push({name: 'Search', params: {searchName: this.name, searchCollege: this.college}})
+      search() {
+        this.$router.push({
+          name: 'Search',
+          params: { searchName: this.name, searchCollege: this.college }
+        });
       }
-    },
+    }
   };
 </script>
 
 <style scoped>
+  .searchbtn {
+    margin: 0;
+    padding: 0.4rem;
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
+  }
+  .search {
+    padding: 0;
+    margin-right: 0.5rem;
+  }
   form {
     width: 30%;
   }

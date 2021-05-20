@@ -8,7 +8,7 @@
         <div class="card">
           <div class="profileheader">
             <span>
-              <h3>{{prof.name}}</h3>
+              <h3>{{ prof.name }}</h3>
             </span>
           </div>
           <div class="profilearea">
@@ -19,16 +19,16 @@
               <tbody>
                 <tr>
                   <td>College:</td>
-                  <td>{{prof.college}}</td>
+                  <td>{{ prof.college }}</td>
                 </tr>
                 <tr>
                   <td>Courses</td>
-                  <td>{{prof.courses}}</td>
+                  <td>{{ prof.courses }}</td>
                 </tr>
                 <tr>
                   <td>Rating:</td>
                   <td v-if="prof.rating != 0">
-                    {{prof.rating}}
+                    {{ prof.rating }}
                   </td>
                   <td v-else>
                     Unrated
@@ -48,9 +48,14 @@
         </div>
         <div class="entry">
           <div class="ratingarea">
-            <span>Rating: </span>
+            <span>Rating</span>
             <span class="rating">
-              <select name="rating" id="rating" v-model="rating">
+              <select
+                class="col-2 custom-select"
+                name="rating"
+                id="rating"
+                v-model="rating"
+              >
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -59,8 +64,11 @@
                 <option value="none">Select a rating</option>
               </select>
             </span>
-            <span v-if="ratingError" class="alert alert-text">"Please select a rating from 1-5"</span>
+            <span v-if="ratingError" class="alert alert-text"
+              >"Please select a rating from 1-5"</span
+            >
           </div>
+          <br />
           <textarea
             id="reviewcomment"
             rows="10"
@@ -68,8 +76,15 @@
             v-model="comment"
           ></textarea>
           <div style="text-align: right; padding-top: 1rem">
-            <span v-if="commentError" class="alert alert-text">"Please provide your comments.  "</span>
-            <button type="button" class="btn btn-primary" id="submitReview" @click="submitReview()">
+            <span v-if="commentError" class="alert alert-text"
+              >"Please provide your comments. "</span
+            >
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="submitReview"
+              @click="submitReview()"
+            >
               Submit Review
             </button>
           </div>
@@ -83,13 +98,15 @@
         <!--{{#each Review}}-->
         <div class="card reviewcard">
           <div class="row reviewItem" v-for="item in reviews">
+            <br />
             <div class="col-3">
-              <p>{{item.authorid}}</p>
-              <p>{{item.authorname}}</p>
+              <p>{{ item.authorname }}<br />{{ item.authorid }}</p>
             </div>
             <div class="col-8">
-              <p>Rating: {{item.rating}}</p>
-              <p>{{item.comment}}</p>
+              <p>Rating: {{ item.rating }}</p>
+              <p>
+                {{ item.comment }}
+              </p>
             </div>
             <div class="col-1">
               <span class="reportbtn" @click="reportReview(item)">Report</span>
@@ -106,7 +123,7 @@
   import Navbar from '@/components/Navbar.vue';
   import axios from 'axios';
 
-  const url = 'http://localhost:3000'
+  const url = 'http://localhost:3000';
 
   export default {
     name: 'Profile',
@@ -116,22 +133,22 @@
     data: () => {
       return {
         prof: {
-          name: "",
-          idNum: "",
-          college: "",
-          courses: "",
-          rating: 0,
+          name: '',
+          idNum: '',
+          college: '',
+          courses: '',
+          rating: 0
         },
         reviews: [],
-        rating: "none",
-        comment:"",
+        rating: 'none',
+        comment: '',
         ratingError: false,
-        commentError: false,
-      }
+        commentError: false
+      };
     },
     methods: {
-      async submitReview(){
-        if(this.validate()){
+      async submitReview() {
+        if (this.validate()) {
           const review = {
             profid: this.prof._id,
             authorid: JSON.parse(localStorage.getItem('user')).idno,
@@ -139,54 +156,61 @@
             comment: this.comment,
             rating: parseInt(this.rating),
             date: Date.now(),
-            status: "posted"
+            status: 'posted'
+          };
+          const response = await axios.post(`${url}/reviews/`, review);
+          this.reviews.push(review);
+          var ratingSum = 0;
+          for (var i = 0; i < this.reviews.length; i++) {
+            ratingSum += this.reviews[i].rating;
           }
-          const response = await axios.post(`${url}/reviews/`, review)
-          this.reviews.push(review)
-          var ratingSum = 0
-          for(var i = 0; i < this.reviews.length; i++){
-            ratingSum+= this.reviews[i].rating
-          }
-          this.prof.rating = ratingSum/this.reviews.length
-          const editResponse = await axios.put(`${url}/profs/${this.prof._id}`,this.prof)
-          this.reset()
+          this.prof.rating = ratingSum / this.reviews.length;
+          const editResponse = await axios.put(
+            `${url}/profs/${this.prof._id}`,
+            this.prof
+          );
+          this.reset();
           //this.$router.go()
         }
       },
-      validate(){
-        if(this.rating=="none"){
-          this.ratingError=true
-        }else{
-          this.ratingError=false
+      validate() {
+        if (this.rating == 'none') {
+          this.ratingError = true;
+        } else {
+          this.ratingError = false;
         }
-        if(this.comment==""){
-          this.commentError=true
-        }else{
-          this.commentError=false
+        if (this.comment == '') {
+          this.commentError = true;
+        } else {
+          this.commentError = false;
         }
-        if(this.ratingError || this.commentError){
-          return false
+        if (this.ratingError || this.commentError) {
+          return false;
         }
-        return true
+        return true;
       },
-      reset(){
-        this.rating="none"
-        this.comment=""
-        this.ratingError=false
-        this.commentError=false
+      reset() {
+        this.rating = 'none';
+        this.comment = '';
+        this.ratingError = false;
+        this.commentError = false;
       },
-      async reportReview(review){
-        console.log(review)
-        const response = await axios.put(`${url}/reviews/report`, review)
-        alert("Successfully reported " + review.authorname + "review!")
+      async reportReview(review) {
+        console.log(review);
+        const response = await axios.put(`${url}/reviews/report`, review);
+        alert('Successfully reported ' + review.authorname + 'review!');
       }
     },
-    async created(){
-      if(this.$route.params.idNum){
-        const response = await axios.get(`${url}/profs/${this.$route.params.idNum}`)
-        this.prof = response.data
-        const responseComments = await axios.get(`${url}/reviews/professor/${this.prof._id}`)
-        this.reviews = responseComments.data
+    async created() {
+      if (this.$route.params.idNum) {
+        const response = await axios.get(
+          `${url}/profs/${this.$route.params.idNum}`
+        );
+        this.prof = response.data;
+        const responseComments = await axios.get(
+          `${url}/reviews/professor/${this.prof._id}`
+        );
+        this.reviews = responseComments.data;
       }
     }
   };
@@ -212,13 +236,13 @@
     padding: 1rem;
     box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.1);
   }
-  .reviewItem:first-of-type{
+  .reviewItem:first-of-type {
     border-top: None;
-    padding-top: 0px
+    padding-top: 0px;
   }
-  .reviewItem{
+  .reviewItem {
     border-top: 1px solid #999;
-    padding-top: 1px
+    padding-top: 1rem;
   }
   button {
     margin: 0;
@@ -259,5 +283,8 @@
   }
   .alert-text {
     padding-top: 0;
+  }
+  .rating {
+    margin-left: 1rem;
   }
 </style>

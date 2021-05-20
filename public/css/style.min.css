@@ -33,6 +33,10 @@
   background-color: #255075;
   color: #fff;
 }
+.btn.btn-secondary {
+  background-color: #5c5c5c;
+  color: #fff;
+}
 .btn.btn-primary:hover {
   background: #3b87ca;
 }
