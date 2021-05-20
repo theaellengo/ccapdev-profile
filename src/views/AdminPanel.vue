@@ -2,10 +2,10 @@
   <div class="admin-panel">
     <div class="container">
       <br />
-      <div class="row">
+      <div class="row pad1">
         <div class="col-3">
           <h3 class="page-title">
-            <i class="fas fa-search"></i> Search Results
+            List of Professors
           </h3>
         </div>
         <div class="col-2">
@@ -22,22 +22,19 @@
       </div>
       <div class="card">
         <table class="table table-borderless table-hover">
-          <span>
-            List of instructors
-          </span>
           <thead>
             <tr class="label">
-              <th scope="col"></th>
-              <th scope="col">Name</th>
               <th scope="col">College</th>
+              <th scope="col">Name</th>
+              <th scope="col">Rating</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in profs">
-                <th scope="row"><a :href=item.hyperlink>{{item.idNum}}</a></th>
+                <th scope="row"><a :href=item.hyperlink>{{item.college}}</a></th>
                 <td><a :href=item.hyperlink>{{item.name}}</a></td>
-                <td><a :href=item.hyperlink>{{item.college}}</a></td>
+                <td><a :href=item.hyperlink>{{item.rating}}</a></td>
                 <td><input type="submit" value="Delete" v-on:click="delProf(item._id)"></td>
             </tr>
           </tbody>
@@ -152,5 +149,8 @@
   .dark-overlay {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.6);
+  }
+  .pad1{
+    padding-left: 10px;
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <form to="/search">
+  <form>
     <div class="row">
-      <div class="col-9">
+      <div class="col-6">
         <input
           type="text"
           class="form-control"
@@ -23,6 +23,14 @@
           <option value="SOE">SOE</option>
         </select>
       </div>
+      <div class="col-3">
+        <button
+          class="btn btn-primary"
+          @click="search()"
+        >
+          Search
+        </button>
+      </div>
     </div>
   </form>
 </template>
@@ -39,6 +47,9 @@
         if(e.keyCode === 13){
             this.$router.push({name: 'Search', params: {searchName: this.name, searchCollege: this.college}})
         }
+      },
+      search(){
+        this.$router.push({name: 'Search', params: {searchName: this.name, searchCollege: this.college}})
       }
     },
   };

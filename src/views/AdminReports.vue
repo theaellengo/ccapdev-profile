@@ -25,10 +25,10 @@
         </div>
       </div>
       <div class="card">
+        <span>
+          List of Reports
+        </span>
         <table class="table table-borderless table-hover">
-          <span>
-            List of Reports
-          </span>
           <thead>
             <tr class="label">
               <th scope="col"></th>
