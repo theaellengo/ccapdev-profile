@@ -17,8 +17,8 @@
             <option value="BAGCED">BAGCED</option>
             <option value="CCS">CCS</option>
             <option value="COL">COL</option>
-            <option value="CLA">COS</option>
-            <option value="COS">CLA</option>
+            <option value="COS">COS</option>
+            <option value="CLA">CLA</option>
             <option value="GCOE">GCOE</option>
             <option value="RVRCOB">RVRCOB</option>
             <option value="SOE">SOE</option>
