@@ -1,4 +1,4 @@
-# machine-proj
+# (Prof)ile Web Application
 
 ## Project setup
 ```
@@ -25,3 +25,6 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Heroku Deployed Application link
+https://prof-ile.herokuapp.com/
