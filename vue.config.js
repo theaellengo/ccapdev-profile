@@ -6,7 +6,8 @@ module.exports = {
             target: `http://localhost:3000`,
           },
         },
-        proxy: 'http://api.back.end'
+        headers: { 'Access-Control-Allow-Origin': '*' 
+        }
       }
     },
   };
