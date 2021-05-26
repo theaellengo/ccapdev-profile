@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const cors = require('cors') // will allow us to make ajax requests from frontend to backend
 const morgan = require('morgan') //http requests automatic logger
 
+const servestatic = require('serve-static')
+const router = express.Router();
+
 // import routes
 const usersRoutes = require('./routes/users')
 const reviewRoutes = require('./routes/reviews')
@@ -27,6 +30,8 @@ app.use(express.urlencoded({ extended: true })); // support encoded bodies
 app.use(cors()); // allow access to API from difference sources
 app.use(morgan('tiny')) // logs HTTP requests
 
+app.use("/api", router);
+
 // serve static files 
 app.use(express.static('public'));
 mongoose.connect(mongoURI, options)
@@ -40,6 +45,10 @@ mongoose.connect(mongoURI, options)
 app.use('/users', usersRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/profs', profsRoutes);
+
+if(process.env.NODE_ENV === 'production'){
+  app.use(servestatic(path.join(path.resolve(), 'dist')));
+}
 
 // listen on port
 app.listen(port, () => console.log(`Listening to ${port}`));
