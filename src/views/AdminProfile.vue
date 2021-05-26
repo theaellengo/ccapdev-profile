@@ -85,7 +85,7 @@
   import ProfAdd from '@/components/ProfAdd.vue';
   import axios from 'axios';
 
-  const url = 'http://localhost:3000'
+  const url = process.env.VUE_APP_API_URL
 
   export default {
     name: 'AdminProfile',
@@ -130,7 +130,6 @@
     },
     async created(){
       if(this.$route.params.idNum){
-        const url = 'http://localhost:3000'
         const response = await axios.get(`${url}/profs/${this.$route.params.idNum}`)
         this.prof = response.data
         const responseComments = await axios.get(`${url}/reviews/professor/${this.prof._id}`)

@@ -70,7 +70,7 @@
   import Searchbar from '@/components/Searchbar.vue';
   import AdminNav from '@/components/AdminNav.vue';
   import axios from 'axios';
-
+  const url = process.env.VUE_APP_API_URL;
   export default {
     name: 'AdminPanel',
     data: () => {
@@ -87,7 +87,6 @@
     },
     methods: {
       async delProf(id) {
-        const url = 'http://localhost:3000';
         const response = await axios.delete(`${url}/profs/${id}`);
         console.log(response);
         this.$router.go();
@@ -97,7 +96,6 @@
       }
     },
     async mounted() {
-      const url = 'http://localhost:3000';
       const response = await axios.get(url + '/profs/all');
       this.profs = response.data;
       const link = window.location.origin + '/#/';
