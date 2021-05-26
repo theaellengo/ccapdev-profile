@@ -78,7 +78,7 @@
 <script>
   import Navbar from '@/components/Navbar.vue';
   import axios from 'axios';
-
+  const url = process.env.VUE_APP_API_URL;
   export default {
     name: 'Search',
     components: {
@@ -95,7 +95,6 @@
     }),
     methods: {
       async search() {
-        const url = 'http://localhost:3000';
         if (this.name == undefined) this.name = '';
         console.log('Name: ' + this.name + '\nCollege: ' + this.college);
         const response = await axios.post(`${url}/profs/search`, {

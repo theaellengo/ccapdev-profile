@@ -69,7 +69,7 @@
   import Searchbar from '@/components/Searchbar.vue';
   import AdminNav from '@/components/AdminNav.vue';
   import axios from 'axios';
-
+  const url = process.env.VUE_APP_API_URL;
   export default {
     name: 'AdminReports',
     data: () => {
@@ -85,7 +85,6 @@
     },
     methods: {
       async flagOK(){
-        const url = 'http://localhost:3000'
         var response = null
         for(var i = 0; i < this.reviews.length; i++){
           if(this.reviews[i].checked == "checked")
@@ -94,7 +93,6 @@
         this.$router.go()
       },
       async delReports(){
-        const url = 'http://localhost:3000'
         var response = null
         for(var i = 0; i < this.reviews.length; i++){
           if(this.reviews[i].checked == "checked")
@@ -104,7 +102,6 @@
       }
     },
     async mounted(){
-      const url = 'http://localhost:3000'
       const response = await axios.get(`${url}/reviews/reports`)
       this.reviews = response.data
       this.reviews.forEach((x, i) => {

@@ -50,7 +50,7 @@
 
 <script>
   import axios from 'axios';
-  const url = 'http://localhost:3000'
+  const url = process.env.VUE_APP_API_URL
 
   export default {
     name: 'ProfAdd',
