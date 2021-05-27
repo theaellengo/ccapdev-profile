@@ -1,7 +1,7 @@
 const express = require('express');
 const { envPort, mongoURI } = require('./config');
 const mongoose = require('mongoose');
-const cors = require('cors') // will allow us to make ajax requests from frontend to backend
+//const cors = require('cors') // will allow us to make ajax requests from frontend to backend
 const morgan = require('morgan') //http requests automatic logger
 
 const servestatic = require('serve-static')
@@ -27,7 +27,7 @@ const options = {
 // Setup middlewares
 app.use(express.json()); // support json encoded bodies
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
-app.use(cors()); // allow access to API from difference sources
+//app.use(cors()); // allow access to API from difference sources
 app.use(morgan('tiny')) // logs HTTP requests
 
 app.use("/api", router);
